@@ -1,0 +1,10 @@
+User-agent: *
+Allow: /
+Allow: /manifest.json
+Allow: /icon-*.png
+Allow: /sw.js
+
+Disallow: /api/
+Disallow: /_next/
+
+Sitemap: /sitemap.xml
