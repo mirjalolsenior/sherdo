@@ -63,53 +63,43 @@ export function Sidebar() {
           </div>
         </div>
 
-        <div className="border-t border-sidebar-border/50 p-4 space-y-3">
-          <button
-            onClick={() => setLanguage(language === 'uz' ? 'en' : 'uz')}
-            className="w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg bg-sidebar-accent/20 text-sidebar-foreground hover:bg-sidebar-accent/30 transition-colors border border-sidebar-accent/30 font-semibold text-sm"
-          >
-            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 00.948-.684l1.498-4.493a1 1 0 011.502-.684l1.498 4.493a1 1 0 00.948.684H19a2 2 0 012 2v1M3 5v6h18V5" />
-            </svg>
-            {language.toUpperCase()}
-          </button>
-        </div>
+
       </nav>
 
       {/* Mobile Header with Hamburger */}
-      <div className="md:hidden fixed top-0 left-0 right-0 bg-card border-b border-border p-4 z-40 flex items-center justify-between backdrop-blur-xl">
+      <div className="md:hidden fixed top-0 left-0 right-0 bg-card border-b border-border p-4 z-50 flex items-center justify-between backdrop-blur-xl">
         <h1 className="text-lg font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary to-accent">{t('appTitle') || 'Toyxona'}</h1>
-        <div className="flex items-center gap-2">
-          <button
-            onClick={() => setLanguage(language === 'uz' ? 'en' : 'uz')}
-            className="px-3 py-1.5 rounded-lg bg-primary/20 hover:bg-primary/30 text-primary text-xs font-bold transition-colors"
-          >
-            {language.toUpperCase()}
-          </button>
-          <button
-            onClick={() => setIsOpen(!isOpen)}
-            className="p-2 hover:bg-border rounded-lg transition-colors"
-            aria-label="Toggle menu"
-          >
-            <svg className="w-6 h-6 text-foreground" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              {isOpen ? (
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-              ) : (
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-              )}
-            </svg>
-          </button>
-        </div>
+        <button
+          onClick={() => {
+            console.log('[v0] Menu button clicked, isOpen:', isOpen);
+            setIsOpen(!isOpen);
+          }}
+          className="p-2 hover:bg-border rounded-lg transition-colors active:scale-95 transition-transform"
+          aria-label="Toggle menu"
+          type="button"
+        >
+          <svg className="w-6 h-6 text-foreground" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            {isOpen ? (
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+            ) : (
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+            )}
+          </svg>
+        </button>
       </div>
 
       {/* Mobile Menu Overlay */}
       {isOpen && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 z-30 md:hidden" onClick={() => setIsOpen(false)} />
+        <div 
+          className="fixed inset-0 bg-black/50 z-40 md:hidden" 
+          onClick={() => setIsOpen(false)}
+          role="presentation"
+        />
       )}
 
       {/* Mobile Sidebar Menu */}
       {isOpen && (
-        <nav className="fixed left-0 top-16 h-screen w-48 bg-card border-r border-border flex flex-col p-4 z-35 md:hidden">
+        <nav className="fixed left-0 top-16 h-screen w-48 bg-card border-r border-border flex flex-col p-4 z-45 md:hidden overflow-y-auto">
           <div className="space-y-1 flex-1">
             {navItems.map((item) => {
               const active = isActive(item.href);
@@ -117,12 +107,16 @@ export function Sidebar() {
                 <Link
                   key={item.href}
                   href={item.href}
-                  className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-all ${
+                  className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-all active:scale-95 ${
                     active
                       ? 'bg-gradient-to-r from-primary/20 to-accent/20 text-primary border border-primary/30 font-semibold'
                       : 'text-foreground hover:bg-secondary/10 border border-transparent'
                   }`}
-                  onClick={() => setIsOpen(false)}
+                  onClick={() => {
+                    console.log('[v0] Menu item clicked:', item.href);
+                    setIsOpen(false);
+                  }}
+                  onTouchEnd={() => setIsOpen(false)}
                 >
                   <span className={active ? 'text-primary' : 'text-muted-foreground'}>{navIcons[item.href as keyof typeof navIcons]}</span>
                   <span>{item.label}</span>
