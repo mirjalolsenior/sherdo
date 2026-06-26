@@ -121,5 +121,40 @@
   }
   body {
     @apply bg-background text-foreground;
+    overscroll-behavior-y: contain;
+    -webkit-user-select: none;
+    user-select: none;
+  }
+  
+  /* Mobile-specific styles for touch interactions */
+  @media (max-width: 768px) {
+    html {
+      font-size: 16px;
+    }
+    
+    /* Ensure touch targets are at least 44px */
+    button, a, [role="button"], [role="link"] {
+      min-height: 44px;
+      min-width: 44px;
+    }
+    
+    /* Improve touch responsiveness */
+    button, a {
+      -webkit-tap-highlight-color: transparent;
+      -webkit-touch-callout: none;
+    }
+    
+    body {
+      height: 100dvh;
+      overflow: hidden;
+      position: static;
+      width: 100%;
+    }
+    
+    /* Allow scrolling in specific containers */
+    main {
+      overflow: auto;
+      -webkit-overflow-scrolling: touch;
+    }
   }
 }
